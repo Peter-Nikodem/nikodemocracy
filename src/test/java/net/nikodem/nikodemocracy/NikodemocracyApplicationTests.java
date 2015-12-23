@@ -1,5 +1,6 @@
-package net.nikodem;
+package net.nikodem.nikodemocracy;
 
+import net.nikodem.nikodemocracy.NikodemocracyApplication;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.web.WebAppConfiguration;

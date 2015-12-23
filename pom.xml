@@ -9,7 +9,7 @@
 	<packaging>jar</packaging>
 
 	<name>nikodemocracy</name>
-	<description>r's Applied Cryptography.Simple voting system inspired by secure elections protocol with 2 central authorities mentioned in Bruce Schneie</description>
+	<description>Simple voting system inspired by secure elections protocol with 2 central authorities mentioned in Bruce Schneier's Applied Cryptography. </description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -56,6 +56,22 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.spockframework</groupId>
+			<artifactId>spock-core</artifactId>
+			<version>1.0-groovy-2.4</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.spockframework</groupId>
+			<artifactId>spock-spring</artifactId>
+			<version>1.0-groovy-2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>2.4.5</version>
 		</dependency>
 	</dependencies>
 	
