@@ -1,4 +1,4 @@
-package net.nikodem.nikodemocracy.integration
+package net.nikodem.nikodemocracy.acceptance
 
 import net.nikodem.nikodemocracy.NikodemocracyApplication
 import org.springframework.boot.test.SpringApplicationContextLoader
@@ -15,6 +15,18 @@ class ElectionProtocolRequirementsSpec extends Specification {
     }
 
     def "no one can vote more than once"(){
+        given: electionHasStarted();
+               bobReceivedEmailInvitation();
+        when:  bobSubmitsVote()
+        then:  bobIsNotAbleToSubmitVoteAgain()
+               evaIsNotAbleToSubmitVoteUsingBobsStolenVoterId()
+    }
+
+
+
+    boolean electionHasStarted(){
+        electionService.create(Election.newElection().ownedBy("otto@gmail.com").withEligibleVoters(["alice@gmail.com","bob@gmail.com"]));
+
     }
 
     //....

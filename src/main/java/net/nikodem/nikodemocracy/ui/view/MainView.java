@@ -1,8 +1,11 @@
 package net.nikodem.nikodemocracy.ui.view;
 
+import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.ui.Label;
-import sun.applet.Main;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Link;
+import com.vaadin.ui.themes.ValoTheme;
 
 import javax.annotation.PostConstruct;
 
@@ -12,10 +15,28 @@ import javax.annotation.PostConstruct;
 @SpringView(name = MainView.NAME)
 public class MainView extends AbstractView{
     public static final String NAME = "main";
+    private final Link createElectionLink = createLink("Create new election",CreateElectionView.NAME);
+    private final Link manageElectionLink = createLink("Manage election",ElectionsProfileView.NAME);
+    private final Link registerAccountLink = createLink("Register new account",RegisterAccountView.NAME);
 
-    @PostConstruct
-    private void init(){
-        addComponent(new Label("“What shall we say about those spectators, then, who can see a plurality of beautiful things, but not beauty itself, and who are incapable of following if someone else tries to lead them to it, and who can see many moral actions, but not morality itself, and so on? That they only ever entertain beliefs, and do not know any of the things they believe?” "));
+
+
+    @Override
+    protected void setComponentLayout() {
+        addComponent(createElectionLink);
+        addComponent(manageElectionLink);
+        addComponent(registerAccountLink);
     }
+
+    private Link createLink(String register, String viewName) {
+        Link link = new Link(register, new ExternalResource("#!" + viewName));
+        link.addStyleName(ValoTheme.LINK_LARGE);
+        return link;
+    }
+
+    @Override
+    public void enter(ViewChangeListener.ViewChangeEvent event) {
+    }
+
 
 }

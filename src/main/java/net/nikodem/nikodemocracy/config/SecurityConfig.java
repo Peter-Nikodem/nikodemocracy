@@ -1,6 +1,6 @@
 package net.nikodem.nikodemocracy.config;
 
-import net.nikodem.nikodemocracy.service.ElectionAdminService;
+import net.nikodem.nikodemocracy.service.CurrentUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -16,14 +16,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Order(200)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private ElectionAdminService adminService;
+    private CurrentUserDetailsService userDetailsService;
 
     @Autowired
     public void configure(AuthenticationManagerBuilder builder) throws Exception {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(adminService);
+        authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(new BCryptPasswordEncoder());
-        builder.userDetailsService(adminService).and().authenticationProvider(authenticationProvider);
+        builder.userDetailsService(userDetailsService).and().authenticationProvider(authenticationProvider);
     }
 
 }
