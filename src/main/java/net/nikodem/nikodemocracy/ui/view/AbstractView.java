@@ -1,10 +1,14 @@
 package net.nikodem.nikodemocracy.ui.view;
 
+import com.google.gwt.thirdparty.guava.common.eventbus.EventBus;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
 import net.nikodem.nikodemocracy.ui.MainUI;
+import net.nikodem.nikodemocracy.ui.event.NavigationEvent;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -17,7 +21,7 @@ public abstract class AbstractView extends Panel implements View {
     private final HorizontalLayout header = new HorizontalLayout();
     private final VerticalLayout mainLayout = new VerticalLayout();
     private final VerticalLayout layout = new VerticalLayout();
-    private final Label mainLabel = new Label("<center><h1> Nikodemocracy </h1></center>", ContentMode.HTML);
+    private final Label mainLabel = new Label("  Nikodemocracy " + FontAwesome.ENVELOPE_SQUARE.getHtml(), ContentMode.HTML);
     private final HorizontalLayout loginInfo = new HorizontalLayout();
 
 
@@ -29,6 +33,9 @@ public abstract class AbstractView extends Panel implements View {
         layout.addComponent(header);
         layout.addComponent(loginInfo);
         layout.addComponent(mainLayout);
+
+        layout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
+        mainLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         setContent(layout);
     }
 
@@ -48,10 +55,17 @@ public abstract class AbstractView extends Panel implements View {
 
     private void buildHeader() {
         header.addComponent(mainLabel);
+        mainLabel.addStyleName(ValoTheme.LABEL_H1);
+        header.setComponentAlignment(mainLabel,Alignment.MIDDLE_CENTER);
     }
 
     protected void addComponent(Component component) {
         mainLayout.addComponent(component);
+    }
+
+    protected void navigateTo(String viewName) {
+        EventBus eventbus = MainUI.getCurrent().getEventBus();
+        eventbus.post(new NavigationEvent(this, viewName));
     }
 
     protected void registerWithEventbus() {

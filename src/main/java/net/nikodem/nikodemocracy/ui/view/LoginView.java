@@ -4,9 +4,7 @@ import com.google.gwt.thirdparty.guava.common.eventbus.EventBus;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.PasswordField;
-import com.vaadin.ui.TextField;
+import com.vaadin.ui.*;
 import net.nikodem.nikodemocracy.service.AuthenticationService;
 import net.nikodem.nikodemocracy.ui.MainUI;
 import net.nikodem.nikodemocracy.ui.event.NavigationEvent;
@@ -34,12 +32,18 @@ public class LoginView extends AbstractView {
     private TextField nameTF = new TextField("Username");
     private PasswordField passwordTF = new PasswordField("Password");
     private Button loginButton = new Button("Login");
+    private Button registerButton = new Button("Register");
+    private Button goToMainMenuButton = new Button("Go to main menu");
+    private HorizontalLayout buttonGroup = new HorizontalLayout();
 
     @Override
     protected void setComponentLayout() {
         addComponent(nameTF);
         addComponent(passwordTF);
-        addComponent(loginButton);
+        buttonGroup.addComponent(loginButton);
+        buttonGroup.addComponent(registerButton);
+//        buttonGroup.addComponent(goToMainMenuButton);
+        addComponent(buttonGroup);
     }
 
     @Override
@@ -49,11 +53,15 @@ public class LoginView extends AbstractView {
         passwordTF.setRequired(true);
 
         loginButton.addClickListener((event -> tryToLogin()));
+        registerButton.addClickListener((event -> navigateTo(RegisterAccountView.getPath(viewRequestedBeforeAuthentication))));
     }
 
     @Override
     protected void setStyle(){
+        buttonGroup.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         loginButton.setIcon(FontAwesome.SIGN_IN);
+        registerButton.setIcon(FontAwesome.ARCHIVE);
+        goToMainMenuButton.setIcon(FontAwesome.ARROW_LEFT);
     }
 
     /**
@@ -68,7 +76,6 @@ public class LoginView extends AbstractView {
                 passwordTF.clear();
             }
         } else {
-            System.out.println("not valid");
             if (nameTF.isEmpty()) {
                 nameTF.setRequiredError("Please enter your username");
             }
@@ -76,11 +83,6 @@ public class LoginView extends AbstractView {
                 passwordTF.setRequiredError("Please enter your password");
             }
         }
-    }
-
-    private void navigateTo(String viewName) {
-        EventBus eventbus = MainUI.getCurrent().getEventBus();
-        eventbus.post(new NavigationEvent(this, viewName));
     }
 
     @Override
