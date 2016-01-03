@@ -1,9 +1,8 @@
 package net.nikodem.nikodemocracy.service
 
 import net.nikodem.nikodemocracy.NikodemocracyApplication
-import net.nikodem.nikodemocracy.model.dto.CurrentUser
 import net.nikodem.nikodemocracy.model.exception.UsernameAlreadyTakenException
-import net.nikodem.nikodemocracy.repository.ElectionAdminRepository
+import net.nikodem.nikodemocracy.repository.AdminRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.security.core.userdetails.UsernameNotFoundException
@@ -11,17 +10,19 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
 
+import static net.nikodem.nikodemocracy.test.Persons.*
+
 /**
  * @author Peter Nikodem 
  */
 @ContextConfiguration(loader = SpringApplicationContextLoader, classes = NikodemocracyApplication.class)
-class CurrentUserDetailsServiceTest extends Specification {
+class AdminDetailsServiceTest extends Specification {
 
     @Autowired
-    CurrentUserDetailsService userDetailsService;
+    AdminDetailsService adminDetailsService;
 
     @Autowired
-    ElectionAdminRepository registeredAccountRepository
+    AdminRepository registeredAccountRepository
 
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder()
 
@@ -30,36 +31,36 @@ class CurrentUserDetailsServiceTest extends Specification {
     }
 
     def "new user's email is saved"(){
-        given:  userDetailsService.registerNewUser('Alice','alice.nikodemocracy@gmail.com','DownTheRabbitHole')
-        when:   def alicesAccount = userDetailsService.loadUserByUsername('Alice')
-        then:   alicesAccount.email == 'alice.nikodemocracy@gmail.com'
+        given:  adminDetailsService.registerNewUser(Alice.username,Alice.email,Alice.password)
+        when:   def alicesAccount = adminDetailsService.loadUserByUsername(Alice.username)
+        then:   alicesAccount.email == Alice.email
     }
 
     def "new user's password is encrypted"(){
-        given:  'Alice correctly registers a new account with Election Admin role'
-                userDetailsService.registerNewUser('Alice','alice.nikodemocracy@gmail.com','DownTheRabbitHole')
+        given:  'Bob correctly registers a new account with Election Admin role'
+                adminDetailsService.registerNewUser(Bob.username,Bob.email,Bob.password)
         when:   'saved account is returned'
-                def alicesAccount = userDetailsService.loadUserByUsername('Alice')
+                def bobsAccount = adminDetailsService.loadUserByUsername(Bob.username)
         then:   'password is successfully encrypted'
                 //interestingly, comparing stored password with newly generated one fails.
                 // While it's not really unexpected, why?
-                alicesAccount.password != 'DownTheRabbitHole'
-                passwordEncoder.matches('DownTheRabbitHole',alicesAccount.password)
+                bobsAccount.password != Bob.password
+                passwordEncoder.matches(Bob.password,bobsAccount.password)
     }
 
     def 'attempting to register a new account with already registered username throws exception'(){
-        given:  'Alice correctly registers a new account with Election Admin Role'
-                userDetailsService.registerNewUser('Alice','alice.nikodemocracy@gmail.com','DownTheRabbitHole')
-                def alicesOriginalAccount = userDetailsService.loadUserByUsername('Alice')
+        given:  'Cecil correctly registers a new account with Election Admin Role'
+                adminDetailsService.registerNewUser(Cecil.username,Cecil.email,Cecil.password)
+                def cecilsOriginalAccount = adminDetailsService.loadUserByUsername(Cecil.username)
         when:   'someone attempts to register a new account with the same username'
-                userDetailsService.registerNewUser('Alice','alice@someoneelse.com',"ILikeBigButts")
+                adminDetailsService.registerNewUser(Cecil.username,Eva.email,Eva.password)
         then:   'exception is thrown and original account remains unchanged'
                 thrown(UsernameAlreadyTakenException)
-                userDetailsService.loadUserByUsername('Alice') == alicesOriginalAccount
+                adminDetailsService.loadUserByUsername(Cecil.username) == cecilsOriginalAccount
     }
 
     def 'attempting to log in with an unregistered username throws exception'(){
-        when:   userDetailsService.loadUserByUsername('Eva')
+        when:   adminDetailsService.loadUserByUsername(Eva.username)
         then:   thrown(UsernameNotFoundException)
     }
 

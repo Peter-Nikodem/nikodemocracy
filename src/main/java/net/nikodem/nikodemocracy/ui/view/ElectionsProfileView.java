@@ -10,7 +10,7 @@ import org.springframework.security.access.annotation.Secured;
 @Secured("ROLE_ELECTION_ADMIN")
 @SpringView(name = ElectionsProfileView.NAME)
 public class ElectionsProfileView extends AbstractView {
-    public static final String NAME = "elections";
+    public static final String NAME = "manage";
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {

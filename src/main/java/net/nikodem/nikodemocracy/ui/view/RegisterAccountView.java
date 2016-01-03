@@ -8,7 +8,7 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import net.nikodem.nikodemocracy.model.exception.UsernameAlreadyTakenException;
-import net.nikodem.nikodemocracy.service.CurrentUserDetailsService;
+import net.nikodem.nikodemocracy.service.AdminDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class RegisterAccountView extends AbstractView {
     public static final String NAME = "register";
 
-    private final CurrentUserDetailsService userDetailsService;
+    private final AdminDetailsService userDetailsService;
     private final TextField usernameTF = new TextField("Username");
     private final TextField emailTF = new TextField("Email");
     private final PasswordField passwordTF = new PasswordField("Password");
@@ -28,7 +28,7 @@ public class RegisterAccountView extends AbstractView {
     private String viewRequestedBeforeAuthentication;
 
     @Autowired
-    public RegisterAccountView(CurrentUserDetailsService userDetailsService) {
+    public RegisterAccountView(AdminDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
@@ -71,7 +71,6 @@ public class RegisterAccountView extends AbstractView {
     @Override
     protected void setBehaviour() {
         usernameTF.setRequired(true);
-        ;
         emailTF.setRequired(true);
         passwordTF.setRequired(true);
         repeatedPasswordTF.setRequired(true);

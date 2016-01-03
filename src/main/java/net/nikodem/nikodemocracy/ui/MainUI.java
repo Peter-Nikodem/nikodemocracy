@@ -11,6 +11,7 @@ import com.vaadin.server.*;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.navigator.SpringViewProvider;
 import com.vaadin.ui.UI;
+import net.nikodem.nikodemocracy.model.dto.Admin;
 import net.nikodem.nikodemocracy.service.VaadinAccessDecisionManager;
 import net.nikodem.nikodemocracy.ui.event.NavigationEvent;
 import net.nikodem.nikodemocracy.ui.view.AccessDeniedView;
@@ -54,6 +55,10 @@ public class MainUI extends UI {
         this.vaadinAccessDecisionManager = accessDecisionManager;
         eventBus = new EventBus("main");
         eventBus.register(this);
+    }
+
+    public Admin getCurrentUser() {
+        return isUserAnonymous() ? null : ((Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }
 
     public boolean isUserAnonymous() {

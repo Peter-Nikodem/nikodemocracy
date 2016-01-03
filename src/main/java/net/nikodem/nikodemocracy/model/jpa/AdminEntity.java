@@ -1,16 +1,17 @@
 package net.nikodem.nikodemocracy.model.jpa;
 
+import net.nikodem.nikodemocracy.model.dto.Admin;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 /**
  * @author Peter Nikodem
  */
-@Entity
-public class ElectionAdmin {
+@Entity(name = "Admin")
+public class AdminEntity {
 
     @Id
     @Column
@@ -24,12 +25,17 @@ public class ElectionAdmin {
     @Column
     private String password;
 
-    public ElectionAdmin(){
+    public AdminEntity() {
     }
-    public ElectionAdmin(String username, String email, String password) {
+
+    public AdminEntity(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public static AdminEntity buildFromDto(Admin admin) {
+        return new AdminEntity(admin.getUsername(), admin.getEmail(), admin.getPassword());
     }
 
     public String getUsername() {
@@ -61,7 +67,7 @@ public class ElectionAdmin {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ElectionAdmin that = (ElectionAdmin) o;
+        AdminEntity that = (AdminEntity) o;
 
         if (!username.equals(that.username)) return false;
         if (!email.equals(that.email)) return false;
@@ -79,7 +85,7 @@ public class ElectionAdmin {
 
     @Override
     public String toString() {
-        return "ElectionAdmin{" +
+        return "AdminEntity{" +
                 "username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 '}';

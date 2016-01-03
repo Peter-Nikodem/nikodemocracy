@@ -1,8 +1,7 @@
 package net.nikodem.nikodemocracy.config;
 
-import net.nikodem.nikodemocracy.model.jpa.ElectionAdmin;
-import net.nikodem.nikodemocracy.repository.ElectionAdminRepository;
-import net.nikodem.nikodemocracy.service.CurrentUserDetailsService;
+import net.nikodem.nikodemocracy.repository.AdminRepository;
+import net.nikodem.nikodemocracy.service.AdminDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.ServletContextInitializer;
 import org.springframework.context.annotation.Configuration;
@@ -17,14 +16,14 @@ import javax.servlet.ServletException;
 public class ApplicationInitializer implements ServletContextInitializer {
 
     @Autowired
-    ElectionAdminRepository electionAdminRepository;
+    AdminRepository adminRepository;
 
     @Autowired
-    CurrentUserDetailsService userDetailsService;
+    AdminDetailsService userDetailsService;
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
-        if (electionAdminRepository.count()==0){
+        if (adminRepository.count()==0){
             userDetailsService.registerNewUser("peter","peternikodemjr@gmail.com","hello");
         }
     }

@@ -1,46 +1,43 @@
 package net.nikodem.nikodemocracy.service;
 
-import net.nikodem.nikodemocracy.model.dto.CurrentUser;
+import net.nikodem.nikodemocracy.model.dto.Admin;
 import net.nikodem.nikodemocracy.model.exception.UsernameAlreadyTakenException;
-import net.nikodem.nikodemocracy.model.jpa.ElectionAdmin;
-import net.nikodem.nikodemocracy.repository.ElectionAdminRepository;
+import net.nikodem.nikodemocracy.model.jpa.AdminEntity;
+import net.nikodem.nikodemocracy.repository.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 /**
  * @author Peter Nikodem
  */
 @Service
-public class CurrentUserDetailsService implements UserDetailsService {
+public class AdminDetailsService implements UserDetailsService {
 
-    private final ElectionAdminRepository electionAdminRepository;
+    private final AdminRepository adminRepository;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
-    public CurrentUserDetailsService(ElectionAdminRepository electionAdminRepository) {
-        this.electionAdminRepository = electionAdminRepository;
+    public AdminDetailsService(AdminRepository adminRepository) {
+        this.adminRepository = adminRepository;
     }
 
     @Override
-    public CurrentUser loadUserByUsername(String username) throws UsernameNotFoundException {
-        return electionAdminRepository.findByUsername(username).
-                map(CurrentUser::buildFromEntity).
+    public Admin loadUserByUsername(String username) throws UsernameNotFoundException {
+        return adminRepository.findByUsername(username).
+                map(Admin::buildFromEntity).
                 orElseThrow(() -> new UsernameNotFoundException(username));
     }
 
     public void registerNewUser(String username, String email, String unencryptedPassword)
             throws UsernameAlreadyTakenException {
-        if (electionAdminRepository.findByUsername(username).isPresent()) {
+        if (adminRepository.findByUsername(username).isPresent()) {
             throw new UsernameAlreadyTakenException();
         }
-        electionAdminRepository.save(
-                new ElectionAdmin(username, email, encryptPassword(unencryptedPassword)));
+        adminRepository.save(
+                new AdminEntity(username, email, encryptPassword(unencryptedPassword)));
 
     }
 

@@ -1,6 +1,7 @@
 package net.nikodem.nikodemocracy.acceptance
 
 import net.nikodem.nikodemocracy.NikodemocracyApplication
+import net.nikodem.nikodemocracy.model.dto.Election
 import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
@@ -25,7 +26,7 @@ class ElectionProtocolRequirementsSpec extends Specification {
 
 
     boolean electionHasStarted(){
-        electionService.create(Election.newElection().ownedBy("otto@gmail.com").withEligibleVoters(["alice@gmail.com","bob@gmail.com"]));
+        electionService.create(Election.Election.newElection().ownedBy("otto@gmail.com").withEligibleVoters(["alice@gmail.com","bob@gmail.com"]));
 
     }
 

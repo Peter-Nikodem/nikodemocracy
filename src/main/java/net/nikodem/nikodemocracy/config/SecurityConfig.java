@@ -1,6 +1,6 @@
 package net.nikodem.nikodemocracy.config;
 
-import net.nikodem.nikodemocracy.service.CurrentUserDetailsService;
+import net.nikodem.nikodemocracy.service.AdminDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -16,7 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Order(200)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private CurrentUserDetailsService userDetailsService;
+    private AdminDetailsService userDetailsService;
 
     @Autowired
     public void configure(AuthenticationManagerBuilder builder) throws Exception {
