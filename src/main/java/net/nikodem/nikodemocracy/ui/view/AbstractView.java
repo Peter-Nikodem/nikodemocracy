@@ -3,6 +3,7 @@ package net.nikodem.nikodemocracy.ui.view;
 import com.google.gwt.thirdparty.guava.common.eventbus.EventBus;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -36,6 +37,8 @@ public abstract class AbstractView extends Panel implements View {
 
         layout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
         mainLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+        mainLayout.setSpacing(true);
+        mainLayout.setSpacing(true);
         setContent(layout);
     }
 
@@ -57,6 +60,11 @@ public abstract class AbstractView extends Panel implements View {
         header.addComponent(mainLabel);
         mainLabel.addStyleName(ValoTheme.LABEL_H1);
         header.setComponentAlignment(mainLabel,Alignment.MIDDLE_CENTER);
+    }
+    protected Link createLink(String register, String viewName) {
+        Link link = new Link(register, new ExternalResource("#!" + viewName));
+        link.addStyleName(ValoTheme.LINK_LARGE);
+        return link;
     }
 
     protected void addComponent(Component component) {

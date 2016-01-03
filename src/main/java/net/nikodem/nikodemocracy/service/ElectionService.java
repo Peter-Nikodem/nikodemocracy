@@ -1,7 +1,10 @@
 package net.nikodem.nikodemocracy.service;
 
+import net.nikodem.nikodemocracy.model.dto.Admin;
 import net.nikodem.nikodemocracy.model.dto.Election;
+import net.nikodem.nikodemocracy.model.dto.ElectionBuilder;
 import net.nikodem.nikodemocracy.model.exception.ElectionNameAlreadyTakenException;
+import net.nikodem.nikodemocracy.model.exception.ElectionNotFoundException;
 import net.nikodem.nikodemocracy.model.jpa.AnswerEntity;
 import net.nikodem.nikodemocracy.model.jpa.ElectionEntity;
 import net.nikodem.nikodemocracy.model.jpa.VoterEntity;
@@ -33,6 +36,49 @@ public class ElectionService {
     @Autowired
     private VoterRepository voterRepository;
 
+
+    public Election findElectionByShortUrl(String electionShortUrl) throws ElectionNotFoundException {
+        return electionRepository.findByShortUrl(electionShortUrl).
+                map(this::retrieveElectionDto).
+                orElseThrow(ElectionNotFoundException::new);
+    }
+
+    public List<Election> findUsersElections(String username) {
+        return electionRepository.findByAdminUsername(username)
+                .stream()
+                .map(this::retrieveElectionDto)
+                .collect(Collectors.toList());
+    }
+
+    private Election retrieveElectionDto(ElectionEntity electionEntity) {
+        List<String> votersEmails = findVotersEmails(electionEntity);
+        List<String> answers = findAnswers(electionEntity);
+        return buildElectionDto(electionEntity, answers, votersEmails);
+    }
+
+    private List<String> findAnswers(ElectionEntity electionEntity) {
+        return answerRepository.findByElectionOrderByAnswerOrder(electionEntity)
+                .stream()
+                .map(AnswerEntity::getAnswerText)
+                .collect(Collectors.toList());
+    }
+
+    private List<String> findVotersEmails(ElectionEntity electionEntity) {
+        return voterRepository.findByElection(electionEntity)
+                .stream()
+                .map(VoterEntity::getEmail)
+                .collect(Collectors.toList());
+    }
+
+    private Election buildElectionDto(ElectionEntity election, List<String> answers, List<String> votersEmails) {
+        return ElectionBuilder.election()
+                .withName(election.getName())
+                .withQuestion(election.getQuestion())
+                .withPossibleAnswers(answers)
+                .withEmailsOfEligibleVoters(votersEmails)
+                .withElectionAdmin(Admin.buildFromEntity(election.getAdmin()))
+                .build();
+    }
 
     public void createElection(Election election, Map<String, String> mailsToVoterIds) throws ElectionNameAlreadyTakenException {
         checkIfElectionWithTheSameNameAndAdminAlreadyDoesntExist(election);
@@ -82,6 +128,7 @@ public class ElectionService {
                 .collect(Collectors.toList());
         voterRepository.save(voterEntities);
     }
+
 
 
 }

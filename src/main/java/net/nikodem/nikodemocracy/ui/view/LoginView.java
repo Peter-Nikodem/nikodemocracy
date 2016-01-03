@@ -1,6 +1,7 @@
 package net.nikodem.nikodemocracy.ui.view;
 
 import com.google.gwt.thirdparty.guava.common.eventbus.EventBus;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.spring.annotation.SpringView;
@@ -62,6 +63,7 @@ public class LoginView extends AbstractView {
         loginButton.setIcon(FontAwesome.SIGN_IN);
         registerButton.setIcon(FontAwesome.ARCHIVE);
         goToMainMenuButton.setIcon(FontAwesome.ARROW_LEFT);
+        loginButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
     }
 
     /**

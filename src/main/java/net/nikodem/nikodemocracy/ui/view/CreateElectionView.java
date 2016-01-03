@@ -45,7 +45,7 @@ public class CreateElectionView extends AbstractView {
         try {
             validate();
             startElection();
-            navigateTo(ElectionsProfileView.NAME);
+            navigateTo(ManageElectionsView.NAME);
         } catch (Validator.InvalidValueException|IllegalStateException|ElectionNameAlreadyTakenException ex) {
             displayCausesOfInvalidity();
         }
@@ -63,7 +63,7 @@ public class CreateElectionView extends AbstractView {
                 .withQuestion(polledQuestion.getValue())
                 .withPossibleAnswers(electionOptions.getOptions())
                 .withEmailsOfEligibleVoters(eligibleVoters.getOptions())
-                .withElectionAdmin(MainUI.getCurrent().getCurrentUser())
+                .withElectionAdmin(MainUI.getCurrentUser())
                 .build();
 
         registrationAuthority.registerElection(election);

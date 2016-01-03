@@ -45,6 +45,7 @@ public class MainUI extends UI {
     public static MainUI getCurrent() {
         return (MainUI) UI.getCurrent();
     }
+    public static Admin getCurrentUser() {return getCurrent().getUser(); }
     public static boolean isCurrentUserAnonymous() {
         return MainUI.getCurrent().isUserAnonymous();
     }
@@ -57,7 +58,7 @@ public class MainUI extends UI {
         eventBus.register(this);
     }
 
-    public Admin getCurrentUser() {
+    public Admin getUser() {
         return isUserAnonymous() ? null : ((Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }
 
@@ -65,7 +66,7 @@ public class MainUI extends UI {
         return SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken;
     }
 
-    // getCurrentUser() method
+    // getUser() method
 
     public EventBus getEventBus() {
         return eventBus;

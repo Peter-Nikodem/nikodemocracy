@@ -14,6 +14,8 @@ import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
 
 import static net.nikodem.nikodemocracy.test.Persons.*
+import static net.nikodem.nikodemocracy.test.Elections.*
+
 
 /**
  * @author Peter Nikodem 
@@ -39,23 +41,31 @@ class ElectionServiceTest extends Specification {
 
     Election newAlicesElection
 
+    Map<String,String> goodGuysMailsToVoterKeys = GoodGuys.collectEntries{guy -> [guy.email,guy.voterKey]}
+
     def setup(){
         adminService.registerNewUser(Alice.username,Alice.email,Alice.password)
         alicesAccount = adminService.loadUserByUsername(Alice.username)
         newAlicesElection = ElectionBuilder.election()
-                .withName("Bear with us!")
-                .withQuestion("What kind of a bear is the best?")
-                .withPossibleAnswers(['Black bear','Polar bear','Original question bear'])
-                .withEmailsOfEligibleVoters(GoodGuys.collect{it.email})
+                .withName(Bearection.name)
+                .withQuestion(Bearection.question)
+                .withPossibleAnswers(Bearection.possibleAnswers)
+                .withEmailsOfEligibleVoters(Bearection.votersEmails)
                 .withElectionAdmin(alicesAccount).build()
+
     }
 
     def "saved election is fully retrievable"(){
-
+        when:   electionService.createElection(getNewAlicesElection(),Bearection.mailsToVoterKeys)
+                def foundElection = electionService.findUsersElections(Alice.username).get(0)
+        then:   foundElection.name == Bearection.name
+                foundElection.question==Bearection.question
+                foundElection.possibleAnswers == Bearection.possibleAnswers
+                foundElection.emailsOfEligibleVoters == Bearection.votersEmails
     }
 
     def "election is saved with all parts"(){
-        when:   electionService.createElection(newAlicesElection,[:])
+        when:   electionService.createElection(newAlicesElection,goodGuysMailsToVoterKeys)
         then:   electionRepository.count() == 1
                 voterRepository.count() == 3
                 answerRepository.count() == 3
@@ -64,7 +74,7 @@ class ElectionServiceTest extends Specification {
 
     def "attempting to save the election with already existing name results in exception"(){
         when:   electionService.createElection(newAlicesElection,new HashMap<String,String>())
-                electionService.createElection(newAlicesElection,[:])
+                electionService.createElection(newAlicesElection,goodGuysMailsToVoterKeys)
         then:   thrown(ElectionNameAlreadyTakenException)
     }
 

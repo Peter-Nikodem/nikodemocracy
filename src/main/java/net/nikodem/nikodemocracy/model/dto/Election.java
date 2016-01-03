@@ -63,4 +63,8 @@ public class Election {
     public Admin getAdmin() {
         return admin;
     }
+
+    public boolean isFinished() {
+        return false;
+    }
 }

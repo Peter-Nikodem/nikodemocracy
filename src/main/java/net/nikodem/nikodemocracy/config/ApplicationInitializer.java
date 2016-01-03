@@ -24,7 +24,7 @@ public class ApplicationInitializer implements ServletContextInitializer {
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         if (adminRepository.count()==0){
-            userDetailsService.registerNewUser("peter","peternikodemjr@gmail.com","hello");
+            userDetailsService.registerNewUser("pete","peternikodemjr@gmail.com","hey");
         }
     }
 }

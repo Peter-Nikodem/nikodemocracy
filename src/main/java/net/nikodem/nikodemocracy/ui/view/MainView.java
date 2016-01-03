@@ -3,11 +3,8 @@ package net.nikodem.nikodemocracy.ui.view;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Link;
 import com.vaadin.ui.themes.ValoTheme;
-
-import javax.annotation.PostConstruct;
 
 /**
  * @author Peter Nikodem
@@ -16,7 +13,7 @@ import javax.annotation.PostConstruct;
 public class MainView extends AbstractView{
     public static final String NAME = "main";
     private final Link createElectionLink = createLink("Create new election",CreateElectionView.NAME);
-    private final Link manageElectionLink = createLink("Manage election",ElectionsProfileView.NAME);
+    private final Link manageElectionLink = createLink("Manage election", ManageElectionsView.NAME);
     private final Link registerAccountLink = createLink("Register new account",RegisterAccountView.NAME);
 
 
@@ -28,11 +25,7 @@ public class MainView extends AbstractView{
         addComponent(registerAccountLink);
     }
 
-    private Link createLink(String register, String viewName) {
-        Link link = new Link(register, new ExternalResource("#!" + viewName));
-        link.addStyleName(ValoTheme.LINK_LARGE);
-        return link;
-    }
+
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
