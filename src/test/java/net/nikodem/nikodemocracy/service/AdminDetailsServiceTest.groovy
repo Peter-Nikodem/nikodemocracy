@@ -26,10 +26,6 @@ class AdminDetailsServiceTest extends Specification {
 
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder()
 
-    def setup(){
-        registeredAccountRepository.deleteAll()
-    }
-
     def "new user's email is saved"(){
         given:  adminDetailsService.registerNewUser(Alice.username,Alice.email,Alice.password)
         when:   def alicesAccount = adminDetailsService.loadUserByUsername(Alice.username)

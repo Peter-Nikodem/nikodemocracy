@@ -37,20 +37,16 @@ public class ManageElectionsView extends AbstractView {
         addComponent(goToMainMenuLink);
     }
 
-    @PostConstruct
-    private void addElectionButtons() {
+    @Override
+    public void enter(ViewChangeListener.ViewChangeEvent event) {
         List<Election> usersElections = electionService.findUsersElections(MainUI.getCurrentUser().getUsername());
         for (Election election : usersElections) {
             ElectionStatusButton button = new ElectionStatusButton(election);
-            button.addClickListener(event -> {
-                ElectionStatusButton b = (ElectionStatusButton) event.getButton();
+            button.addClickListener(e -> {
+                ElectionStatusButton b = (ElectionStatusButton) e.getButton();
                 navigateTo(StopElectionView.getPath(b.getShortUrl()));
             });
             addComponent(button);
         }
-    }
-
-    @Override
-    public void enter(ViewChangeListener.ViewChangeEvent event) {
     }
 }

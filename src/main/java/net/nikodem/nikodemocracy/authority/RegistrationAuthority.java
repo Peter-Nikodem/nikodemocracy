@@ -73,7 +73,7 @@ public class RegistrationAuthority {
     }
 
     public void stopElection(Election election) {
-
+        //add implementation
     }
 
     @Autowired

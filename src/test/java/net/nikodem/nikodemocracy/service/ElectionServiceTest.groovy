@@ -47,21 +47,21 @@ class ElectionServiceTest extends Specification {
         adminService.registerNewUser(Alice.username,Alice.email,Alice.password)
         alicesAccount = adminService.loadUserByUsername(Alice.username)
         newAlicesElection = ElectionBuilder.election()
-                .withName(Bearection.name)
-                .withQuestion(Bearection.question)
-                .withPossibleAnswers(Bearection.possibleAnswers)
-                .withEmailsOfEligibleVoters(Bearection.votersEmails)
+                .withName(BearElection.name)
+                .withQuestion(BearElection.question)
+                .withPossibleAnswers(BearElection.possibleAnswers)
+                .withEmailsOfEligibleVoters(BearElection.votersEmails)
                 .withElectionAdmin(alicesAccount).build()
 
     }
 
     def "saved election is fully retrievable"(){
-        when:   electionService.createElection(getNewAlicesElection(),Bearection.mailsToVoterKeys)
+        when:   electionService.createElection(getNewAlicesElection(),BearElection.mailsToVoterKeys)
                 def foundElection = electionService.findUsersElections(Alice.username).get(0)
-        then:   foundElection.name == Bearection.name
-                foundElection.question==Bearection.question
-                foundElection.possibleAnswers == Bearection.possibleAnswers
-                foundElection.emailsOfEligibleVoters == Bearection.votersEmails
+        then:   foundElection.name == BearElection.name
+                foundElection.question==BearElection.question
+                foundElection.possibleAnswers == BearElection.possibleAnswers
+                foundElection.emailsOfEligibleVoters == BearElection.votersEmails
     }
 
     def "election is saved with all parts"(){
@@ -69,13 +69,17 @@ class ElectionServiceTest extends Specification {
         then:   electionRepository.count() == 1
                 voterRepository.count() == 3
                 answerRepository.count() == 3
-
     }
 
     def "attempting to save the election with already existing name results in exception"(){
         when:   electionService.createElection(newAlicesElection,new HashMap<String,String>())
                 electionService.createElection(newAlicesElection,goodGuysMailsToVoterKeys)
         then:   thrown(ElectionNameAlreadyTakenException)
+    }
+
+    def "finding by short url works correctly"(){
+        when:   electionService.createElection(newAlicesElection,goodGuysMailsToVoterKeys)
+        then:   electionService.findElectionByShortUrl(newAlicesElection.shortUrl).name == BearElection.name
     }
 
 

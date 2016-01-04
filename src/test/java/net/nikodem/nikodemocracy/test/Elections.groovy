@@ -21,6 +21,6 @@ class Elections {
     static def goodGuyEmails = GoodGuys.collect{it.email}
     static def goodGuyMailsToVoterKeys = GoodGuys.collectEntries({[it.email,it.voterKey]})
 
-    public static Elections Bearection = new Elections("Bear with us!","Question! What kind of a bear is the best?", ["Black bear","That's debatable","Original question bear"],goodGuyEmails,goodGuyMailsToVoterKeys)
+    public static Elections BearElection = new Elections("Bear with us!","Question! What kind of a bear is the best?", ["Black bear","That's debatable","Original question bear"],goodGuyEmails,goodGuyMailsToVoterKeys)
 
 }
