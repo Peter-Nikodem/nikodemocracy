@@ -5,6 +5,7 @@ import net.nikodem.nikodemocracy.model.dto.Admin
 import net.nikodem.nikodemocracy.model.dto.Election
 import net.nikodem.nikodemocracy.model.dto.ElectionBuilder
 import net.nikodem.nikodemocracy.model.exception.ElectionNameAlreadyTakenException
+import net.nikodem.nikodemocracy.repository.AdminRepository
 import net.nikodem.nikodemocracy.repository.AnswerRepository
 import net.nikodem.nikodemocracy.repository.ElectionRepository
 import net.nikodem.nikodemocracy.repository.VoterRepository
@@ -37,14 +38,21 @@ class ElectionServiceTest extends Specification {
     @Autowired
     AdminDetailsService adminService
 
+    @Autowired
+    AdminRepository adminRepository
+
     Admin alicesAccount
 
     Election newAlicesElection
 
     Map<String,String> goodGuysMailsToVoterKeys = GoodGuys.collectEntries{guy -> [guy.email,guy.voterKey]}
 
-    def setup(){
-        adminService.registerNewUser(Alice.username,Alice.email,Alice.password)
+    def setup() {
+        answerRepository.deleteAll()
+        voterRepository.deleteAll()
+        electionRepository.deleteAll()
+        adminRepository.deleteAll()
+        adminService.registerNewUser(Alice.username, Alice.email, Alice.password)
         alicesAccount = adminService.loadUserByUsername(Alice.username)
         newAlicesElection = ElectionBuilder.election()
                 .withName(BearElection.name)

@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Peter Nikodem
@@ -31,6 +32,7 @@ public class AdminDetailsService implements UserDetailsService {
                 orElseThrow(() -> new UsernameNotFoundException(username));
     }
 
+    @Transactional
     public void registerNewUser(String username, String email, String unencryptedPassword)
             throws UsernameAlreadyTakenException {
         if (adminRepository.findByUsername(username).isPresent()) {

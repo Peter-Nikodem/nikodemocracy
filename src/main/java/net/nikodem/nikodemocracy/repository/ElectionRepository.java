@@ -12,7 +12,6 @@ import java.util.Optional;
  */
 public interface ElectionRepository extends JpaRepository<ElectionEntity,Long>{
     Optional<ElectionEntity> findByNameAndAdminUsername(String name, String username);
-    List<ElectionEntity> findByAdminUsername(String name);
-
     Optional<ElectionEntity> findByShortUrl(String shortUrl);
+    List<ElectionEntity> findByAdminUsername(String name);
 }

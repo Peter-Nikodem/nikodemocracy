@@ -73,7 +73,16 @@ public class RegistrationAuthority {
     }
 
     public void stopElection(Election election) {
-        //add implementation
+        markElectionAsFinished(election);
+        informTabulationAuthorityToPublishResults(election);
+    }
+
+    private void markElectionAsFinished(Election election) {
+        electionService.finishElection(election);
+    }
+
+    private void informTabulationAuthorityToPublishResults(Election election) {
+        tabulationAuthority.publishResultsOfFinishedElection(election);
     }
 
     @Autowired

@@ -13,6 +13,7 @@ import net.nikodem.nikodemocracy.repository.ElectionRepository;
 import net.nikodem.nikodemocracy.repository.VoterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,6 +81,7 @@ public class ElectionService {
                 .build();
     }
 
+    @Transactional
     public void createElection(Election election, Map<String, String> mailsToVoterIds) throws ElectionNameAlreadyTakenException {
         checkIfElectionWithTheSameNameAndAdminAlreadyDoesntExist(election);
         ElectionEntity savedElection = saveElection(election);
@@ -130,5 +132,7 @@ public class ElectionService {
     }
 
 
+    public void finishElection(Election election) {
 
+    }
 }
