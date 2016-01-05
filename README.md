@@ -16,17 +16,18 @@ One of the proposed ways to achieve this is to use two central authorities.
 ### Original protocol
 
 #### Registration authority (RA)
-responsible for creating election and registering voters.
+  - responsible for creating election and registering voters.
 
 #### Tabulation authority (TA)
+  - responsible for tabulating votes and publishing results.
 
-responsible for tabulating votes and publishing results.
-1. All voters send RA a request for a voter key.
-2. RA sends every voter randomly chosen voter key, and also keeps a list, who got what voter key.
-3. RA sends list of all voter keys to TA (without mappings to voters).
-4. Every voter randomly chooses a vote key and submits vote to TA that consists of (voter key, vote key, chosen candidate/option).
-5. When TA receives a vote, the authority verifies that vote contains a valid and not yet used voter key and stores pair vote key - chosen option.
-6. In the final tabulation, TA counts all votes and publishes list of all pairs vote key - chosen option. 
+#### Steps:
+ 1. All voters send RA a request for a voter key.
+ 2. RA sends every voter randomly chosen voter key, and also keeps a list, who got what voter key.
+ 3. RA sends list of all voter keys to TA (without mappings to voters).
+ 4. Every voter randomly chooses a vote key and submits vote to TA that consists of (voter key, vote key, chosen  candidate/option). 
+ 5. When TA receives a vote, the authority verifies that vote contains a valid and not yet used voter key and stores pair vote key - chosen option.
+ 6. In the final tabulation, TA counts all votes and publishes list of all pairs vote key - chosen option. 
 
 Any voter can verify his vote was correctly counted by identifying it through vote key.
 
