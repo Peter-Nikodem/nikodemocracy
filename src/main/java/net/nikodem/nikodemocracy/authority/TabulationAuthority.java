@@ -7,6 +7,7 @@ import net.nikodem.nikodemocracy.model.jpa.ElectionEntity;
 import net.nikodem.nikodemocracy.service.ElectionService;
 import net.nikodem.nikodemocracy.service.ResultsService;
 import net.nikodem.nikodemocracy.service.VoteService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,5 +36,15 @@ public class TabulationAuthority {
 
     public void publishResultsOfFinishedElection(Election election) {
 
+    }
+
+    @Autowired
+    public void setVoteService(VoteService voteService) {
+        this.voteService = voteService;
+    }
+
+    @Autowired
+    public void setResultsService(ResultsService resultsService) {
+        this.resultsService = resultsService;
     }
 }

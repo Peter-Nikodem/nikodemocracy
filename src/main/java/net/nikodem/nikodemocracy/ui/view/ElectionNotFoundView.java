@@ -8,7 +8,6 @@ import org.springframework.security.access.annotation.Secured;
 /**
  * @author Peter Nikodem
  */
-@Secured("ROLE_ELECTION_ADMIN")
 @SpringView(name = ElectionNotFoundView.NAME)
 public class ElectionNotFoundView extends AbstractView {
     public static final String NAME = "not-found";

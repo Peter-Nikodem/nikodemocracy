@@ -58,6 +58,7 @@ public class StopElectionView extends AbstractView {
             electionInfo = new ElectionInfoPanel(election);
             addComponent(electionInfo);
             addComponent(stopButton);
+            init();
         } catch (ElectionNotFoundException ex) {
             navigateTo(ElectionNotFoundView.NAME);
         }

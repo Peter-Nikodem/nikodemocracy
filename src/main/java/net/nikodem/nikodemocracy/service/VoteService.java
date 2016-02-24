@@ -53,10 +53,10 @@ public class VoteService {
         ElectionEntity electionEntity = findElectionEntity(vote.getElection());
         PresenceEntity presence = retrieveAndVerifyVotersPresence(vote,electionEntity);
         saveVote(vote,electionEntity);
-        updatePresnce(presence);
+        updatePresence(presence);
     }
 
-    private void updatePresnce(PresenceEntity presence) {
+    private void updatePresence(PresenceEntity presence) {
         presence.setHasVoted(true);
         presenceRepository.save(presence);
     }

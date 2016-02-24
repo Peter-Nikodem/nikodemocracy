@@ -42,7 +42,6 @@ public abstract class AbstractView extends Panel implements View {
         setContent(layout);
     }
 
-    @PostConstruct
     protected void init(){
         setComponentLayout();
         setStyle();

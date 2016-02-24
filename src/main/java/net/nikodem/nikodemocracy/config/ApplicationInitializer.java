@@ -44,15 +44,15 @@ public class ApplicationInitializer implements ServletContextInitializer {
         List<String> emails = new ArrayList<>();
         List<String> answers = new ArrayList<>();
         emails.add("peternikodemjr@gmail.com");
-        answers.add("not much");
-        answers.add("wazzuuup");
+        answers.add("Yes");
+        answers.add("No");
 
         Map<String,String> mailsToVoterKeys = new HashMap<>();
-        mailsToVoterKeys.put("peternikodemjr@gmail.com", "fdfsdgdfhdfg");
+        mailsToVoterKeys.put("peternikodemjr@gmail.com", "YP2B5WK849IJJ40A");
 
         Election election = ElectionBuilder.election()
-                .withName("Hello")
-                .withQuestion("Sup?")
+                .withName("Sugary Election")
+                .withQuestion("Is cake a lie?")
                 .withPossibleAnswers(answers)
                 .withEmailsOfEligibleVoters(emails)
                 .withElectionAdmin(pete).build();

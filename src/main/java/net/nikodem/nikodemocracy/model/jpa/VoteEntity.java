@@ -5,7 +5,7 @@ import javax.persistence.*;
 /**
  * @author Peter Nikodem
  */
-@Entity
+@Entity(name ="Vote")
 public class VoteEntity {
 
     @Id
@@ -24,5 +24,14 @@ public class VoteEntity {
     public VoteEntity(String voteKey, AnswerEntity answer) {
         this.voteKey = voteKey;
         this.answer = answer;
+    }
+
+    @Override
+    public String toString() {
+        return "VoteEntity{" +
+                "id=" + id +
+                ", voteKey='" + voteKey + '\'' +
+                ", answer=" + answer +
+                '}';
     }
 }

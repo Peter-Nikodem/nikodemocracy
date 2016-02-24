@@ -29,6 +29,7 @@ public class MainView extends AbstractView{
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
+        init();
     }
 
 

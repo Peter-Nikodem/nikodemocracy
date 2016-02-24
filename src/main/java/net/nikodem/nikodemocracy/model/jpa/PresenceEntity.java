@@ -44,4 +44,14 @@ public class PresenceEntity {
     public void setHasVoted(boolean hasVoted) {
         this.hasVoted = hasVoted;
     }
+
+    @Override
+    public String toString() {
+        return "PresenceEntity{" +
+                "id=" + id +
+                ", voterKey='" + voterKey + '\'' +
+                ", hasVoted=" + hasVoted +
+                ", election=" + election +
+                '}';
+    }
 }

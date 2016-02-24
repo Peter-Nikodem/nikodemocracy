@@ -91,7 +91,7 @@ public class RegistrationAuthority {
     }
 
     @Autowired
-    void setKeyGenerationService(KeyGenerationService keyGenerationService) {
+    public void setKeyGenerationService(KeyGenerationService keyGenerationService) {
         this.keyGenerationService = keyGenerationService;
     }
 

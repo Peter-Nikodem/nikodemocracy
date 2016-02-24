@@ -109,7 +109,7 @@ public class CreateElectionView extends AbstractView {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-
+        init();
     }
 
 

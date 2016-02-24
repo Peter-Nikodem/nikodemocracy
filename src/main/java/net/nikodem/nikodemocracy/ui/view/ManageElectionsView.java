@@ -48,5 +48,6 @@ public class ManageElectionsView extends AbstractView {
             });
             addComponent(button);
         }
+        init();
     }
 }

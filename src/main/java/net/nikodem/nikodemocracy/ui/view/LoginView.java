@@ -43,7 +43,6 @@ public class LoginView extends AbstractView {
         addComponent(passwordTF);
         buttonGroup.addComponent(loginButton);
         buttonGroup.addComponent(registerButton);
-//        buttonGroup.addComponent(goToMainMenuButton);
         addComponent(buttonGroup);
     }
 
@@ -90,6 +89,7 @@ public class LoginView extends AbstractView {
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
         viewRequestedBeforeAuthentication = viewChangeEvent.getParameters();
+        init();
     }
 
 

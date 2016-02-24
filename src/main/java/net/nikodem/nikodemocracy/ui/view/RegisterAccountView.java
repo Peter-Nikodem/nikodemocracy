@@ -90,6 +90,7 @@ public class RegisterAccountView extends AbstractView {
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
         viewRequestedBeforeAuthentication = viewChangeEvent.getParameters();
+        init();
     }
 
 
