@@ -10,6 +10,7 @@ import net.nikodem.nikodemocracy.repository.AnswerRepository
 import net.nikodem.nikodemocracy.repository.ElectionRepository
 import net.nikodem.nikodemocracy.repository.VoterRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.IntegrationTest
 import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
@@ -19,8 +20,10 @@ import static net.nikodem.nikodemocracy.test.Elections.*
 
 
 /**
- * @author Peter Nikodem 
+ *
+ * @author Peter Nikodem
  */
+@IntegrationTest
 @ContextConfiguration(loader = SpringApplicationContextLoader, classes = NikodemocracyApplication.class)
 class ElectionServiceTest extends Specification {
     @Autowired

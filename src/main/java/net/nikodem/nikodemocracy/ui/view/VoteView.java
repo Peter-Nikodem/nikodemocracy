@@ -88,7 +88,7 @@ public class VoteView extends AbstractView {
 
     private void generateVoteKey() {
         voteKeyTf.setReadOnly(false);
-        voteKeyTf.setValue(keyGenerationService.randomAlphanumericString());
+        voteKeyTf.setValue(keyGenerationService.generateRandomAlphanumericString());
         voteKeyTf.setReadOnly(true);
     }
 

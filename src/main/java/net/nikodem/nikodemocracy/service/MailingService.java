@@ -1,6 +1,7 @@
 package net.nikodem.nikodemocracy.service;
 
 import net.nikodem.nikodemocracy.model.dto.InvitationEmail;
+import net.nikodem.nikodemocracy.model.dto.Mailable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
@@ -15,14 +16,15 @@ import org.springframework.stereotype.Service;
 public class MailingService {
 
     @Autowired
-    MailSender mailSender;
+    private MailSender mailSender;
 
+    //http://stackoverflow.com/questions/5289849/how-do-i-send-html-email-in-spring-mvc
 
-    public void sendEmail(InvitationEmail invitationEmail) {
+    public void sendEmail(Mailable email) {
         SimpleMailMessage mail = new SimpleMailMessage();
-        mail.setTo(invitationEmail.getTo());
-        mail.setSubject(invitationEmail.getSubject());
-        mail.setText(invitationEmail.getText());
+        mail.setTo(email.getTo());
+        mail.setSubject(email.getSubject());
+        mail.setText(email.getText());
         mailSender.send(mail);
     }
 }

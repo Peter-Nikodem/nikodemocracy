@@ -22,23 +22,27 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * TODO This service should be responsible exclusively just for submiting votes.
  * @author Peter Nikodem
  */
 @Service
 public class VoteService {
-    @Autowired
-    ElectionRepository electionRepository;
 
+    //TODO change autowiring to setters or constructor
     @Autowired
-    AnswerRepository answerRepository;
-
-    @Autowired
-    PresenceRepository presenceRepository;
+    private ElectionRepository electionRepository;
 
     @Autowired
-    VoteRepository voteRepository;
+    private AnswerRepository answerRepository;
+
+    @Autowired
+    private PresenceRepository presenceRepository;
+
+    @Autowired
+    private VoteRepository voteRepository;
 
 
+    //TODO this should be definitely moved into an another service.
     @Transactional
     public void createPresenceRecords(Election election, List<String> anonymizedVoterKeys) throws ElectionNotFoundException {
         ElectionEntity electionEntity = findElectionEntity(election);
@@ -56,9 +60,20 @@ public class VoteService {
         updatePresence(presence);
     }
 
-    private void updatePresence(PresenceEntity presence) {
-        presence.setHasVoted(true);
-        presenceRepository.save(presence);
+    private ElectionEntity findElectionEntity(Election election) {
+        return electionRepository
+                .findByNameAndAdminUsername(election.getName(), election.getAdmin().getUsername())
+                .orElseThrow(ElectionNotFoundException::new);
+    }
+
+    private PresenceEntity retrieveAndVerifyVotersPresence(Vote vote, ElectionEntity electionEntity)
+            throws VoterKeyAlreadyUsedException, VoterKeyNotFoundException {
+        PresenceEntity presence = presenceRepository.findByVoterKeyAndElection(vote.getVoterKey(), electionEntity)
+                .orElseThrow(VoterKeyNotFoundException::new);
+        if (presence.hasVoted()) {
+            throw new VoterKeyAlreadyUsedException();
+        }
+        return presence;
     }
 
     private void saveVote(Vote vote, ElectionEntity electionEntity) {
@@ -72,20 +87,8 @@ public class VoteService {
                 .orElseThrow(AnswerNotFoundException::new);
     }
 
-    private PresenceEntity retrieveAndVerifyVotersPresence(Vote vote, ElectionEntity electionEntity)
-            throws VoterKeyAlreadyUsedException, VoterKeyNotFoundException {
-        PresenceEntity presence = presenceRepository.findByVoterKeyAndElection(vote.getVoterKey(), electionEntity)
-                .orElseThrow(VoterKeyNotFoundException::new);
-        if (presence.hasVoted()) {
-            throw new VoterKeyAlreadyUsedException();
-        }
-        return presence;
-
-    }
-
-    private ElectionEntity findElectionEntity(Election election) {
-        return electionRepository
-                .findByNameAndAdminUsername(election.getName(), election.getAdmin().getUsername())
-                .orElseThrow(ElectionNotFoundException::new);
+    private void updatePresence(PresenceEntity presence) {
+        presence.setHasVoted(true);
+        presenceRepository.save(presence);
     }
 }

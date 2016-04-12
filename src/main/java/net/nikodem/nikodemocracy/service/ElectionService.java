@@ -132,7 +132,11 @@ public class ElectionService {
     }
 
 
+    @Transactional
     public void finishElection(Election election) {
-
+        ElectionEntity electionEntity = electionRepository.findByNameAndAdminUsername(election.getName(), election.getAdmin().getUsername())
+                .orElseThrow(ElectionNotFoundException::new);
+        electionEntity.setFinished(true);
+        electionRepository.save(electionEntity);
     }
 }

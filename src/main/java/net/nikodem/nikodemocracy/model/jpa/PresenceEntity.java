@@ -37,6 +37,7 @@ public class PresenceEntity {
         return election;
     }
 
+    //TODO change name to something that's related to the presence, not voter. AlreadyAttended?
     public boolean hasVoted() {
         return hasVoted;
     }

@@ -21,12 +21,10 @@ public class KeyGenerationService {
                 .toString();
     }
 
-
-
     private static char[] VALID_CHARACTERS =
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456879".toCharArray();
 
-    public String randomAlphanumericString() {
+    public String generateRandomAlphanumericString() {
         int numChars = 16;
         char[] buffer = new char[numChars];
 

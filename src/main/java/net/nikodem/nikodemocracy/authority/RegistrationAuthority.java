@@ -15,6 +15,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
+ * does this class do too much? SRP?
+ *
  * @author Peter Nikodem
  */
 @Service
@@ -43,8 +45,9 @@ public class RegistrationAuthority {
                 ));
     }
 
+    //@TODO this sucks, figure out a way how to remove the redundant parameter
     private String generateRandomVoterKey(String _) {
-        return keyGenerationService.randomAlphanumericString();
+        return keyGenerationService.generateRandomAlphanumericString();
     }
 
     private void saveElection(Election election, Map<String, String> mailsToVoterIds) throws ElectionNameAlreadyTakenException {
@@ -69,9 +72,10 @@ public class RegistrationAuthority {
     }
 
     private String generateFullUrl(String shortUrl) {
-        return "localhost:8080/election/" + shortUrl;
+        return "http://localhost:8080/#!vote/" + shortUrl;
     }
 
+    //TODO finishing election should be Tabulation authority's responsible
     public void stopElection(Election election) {
         markElectionAsFinished(election);
         informTabulationAuthorityToPublishResults(election);
