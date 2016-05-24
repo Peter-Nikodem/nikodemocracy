@@ -1,5 +1,5 @@
 # nikodemocracy
-Simple voting system inspired by secure elections protocol with 2 central authorities mentioned in Bruce Schneier's Applied Cryptography.
+Simple stand-alone voting system inspired by secure elections protocol with 2 central authorities mentioned in Bruce Schneier's Applied Cryptography.
 
 ## Description
 
