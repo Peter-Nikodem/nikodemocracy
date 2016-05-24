@@ -1,5 +1,5 @@
 # nikodemocracy
-Simple stand-alone voting system inspired by secure elections protocol with 2 central authorities mentioned in Bruce Schneier's Applied Cryptography.
+Abandoned attempt for an implementation of a Vaadin and Spring Boot simple stand-alone voting system inspired by secure elections protocol with 2 central authorities mentioned in Bruce Schneier's Applied Cryptography. 
 
 ## Description
 
